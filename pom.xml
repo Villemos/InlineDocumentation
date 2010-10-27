@@ -3,7 +3,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.clearstream.build</groupId>
 	<artifactId>maven-inlinedoc-plugin</artifactId>
-	<version>0.0.2</version>
+	<packaging>maven-plugin</packaging>
+	<version>0.1.2</version>
 
 
 	<build>
@@ -16,6 +17,30 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>com.clearstream.build</groupId>
+				<artifactId>maven-inlinedoc-plugin</artifactId>
+				<configuration>
+					<input>./</input>
+					<publishers>
+						<publisher implementation="com.clearstream.build.inlinedoc.GithubPublisher">
+							<username>gert.villemos@logica.com</username>
+							<userpassword>path2000</userpassword>						
+							<project>Villemos/InlineDocumentation</project>
+							<proxyEnabled>false</proxyEnabled>
+							<proxyProtocol>http</proxyProtocol>
+							<proxyServer>10.48.187.80</proxyServer>
+							<proxyPort>8080</proxyPort>
+						</publisher>						
+					</publishers>
+					
+					<parsers>
+						<parser implementation="com.clearstream.build.inlinedoc.BasicParser"></parser>
+					</parsers>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
 

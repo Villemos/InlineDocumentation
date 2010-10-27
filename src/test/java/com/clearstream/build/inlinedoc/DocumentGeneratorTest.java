@@ -20,15 +20,15 @@ public class DocumentGeneratorTest extends TestCase {
 	public void testExecute() {
 		DocumentGenerator generator = new DocumentGenerator();
 		
-		generator.input = new File("D:/Benutzer-Profile/Villemosg/clearstream/maven-inlinedoc-plugin");		
-		// DummyPublisher publisher = new DummyPublisher();
-		// generator.publishers = new IPublisher[] {publisher};
+		generator.input = new File("./");		
+		DummyPublisher publisher = new DummyPublisher();
+		generator.publishers = new IPublisher[] {publisher};
 		
 		try {
 			generator.execute();
 			
-			// assertTrue(publisher.publishCalled == true);
-			// publisher.print();
+			assertTrue(publisher.publishCalled == true);
+			publisher.print();
 		} catch (MojoExecutionException e) {
 			e.printStackTrace();
 		}

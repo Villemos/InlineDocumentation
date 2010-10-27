@@ -8,6 +8,13 @@ import java.util.Map.Entry;
 
 import com.clearstream.build.inlinedoc.IDocumentModel.DocumentEntry;
 
+/** 
+ * @TITLE JFeature Publisher
+ * The Jfeature Publisher renders the documentation into a "JFeature":http://www.technobuff.net/webapp/product/showProduct.do?name=jfeature file.  
+ * @CATEGORY Publisher
+ * @END
+ * 
+ * */
 public class JFeaturePublisher implements IPublisher {
 
 	/**

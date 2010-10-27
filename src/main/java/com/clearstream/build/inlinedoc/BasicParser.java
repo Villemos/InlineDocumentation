@@ -16,23 +16,17 @@ public class BasicParser implements IParser {
 
 	/**
 	 * The tag used to identify the start of an entry
-	 * @parameter
+	 * @parameter default-value="@TITLE\\s+(.+?)$"
 	 */
 	String titleTag = "@TITLE\\s+(.+?)$";
 	
 	/**
-	 * List of tags
-	 * @parameter
-	 */
-	String[] tags = new String[] {};
-	
-	/**
 	 * The tag used to mark the end of an entry
-	 * @parameter
+	 * @parameter default-value="@END"
 	 */
 	String endTag = "@END";
 
-	
+	protected String[] tags = new String[] {};
 	protected String type = "Document";
 	protected Pattern titlePattern = null;
 	protected List<Pattern> categorizationPatterns = new ArrayList<Pattern>();
@@ -66,6 +60,12 @@ public class BasicParser implements IParser {
 				Matcher titleMatcher = titlePattern.matcher(strLine);
 				if (titleMatcher.find() == true) {
 					title = titleMatcher.group(1);
+					
+					if (title.contains("[") == true || title.contains("]") == true) {
+						System.out.println("Ignoring title " + title);
+						continue;
+					}
+					
 					DocumentEntry entry = model.createEntry(type, title);
 					entry.file = file.getName();
 					entry.packageName = packageName;
@@ -81,19 +81,13 @@ public class BasicParser implements IParser {
 						for (Pattern categoryPattern : categorizationPatterns) {
 							Matcher categoryMatcher = categoryPattern.matcher(strLine);
 							if (categoryMatcher.find() == true) {
-								entry.addTag(categoryMatcher.group(1), categoryMatcher.group(2));
+								entry.addTag(categoryMatcher.group(1).trim(), categoryMatcher.group(2).trim());
 								isTag = true;
 							}
 						}
 
-						if (isTag == false) {
-							String deltaText = strLine.replaceFirst("\\*", "");
-							if (deltaText.equals("") == true) {
-								entry.text = entry.text + "<br/>";
-							}
-							else {						
-								entry.text = entry.text + deltaText + " ";
-							}
+						if (isTag == false) {							
+							entry.text = entry.text + "\n" + strLine.replaceFirst("\\*\\s*", "").trim();							
 						}
 					}
 				}
